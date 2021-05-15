@@ -1,0 +1,51 @@
+{
+    "name": "dotlines-io/ghoori-subscription",
+    "description": "This package can be used for Subscription Payment integration with Ghoori Platform.",
+    "keywords": [
+        "dotlines",
+        "dotlines-io",
+        "ghoori-subscription"
+    ],
+    "homepage": "https://github.com/dotlines-io/ghoori-subscription",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TareqMahbub",
+            "email": "tareqmahbub@ssd-tech.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "ext-json": "*",
+        "dotlines-io/ghoori": "^1.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "phpunit/phpunit": "^9.5",
+        "spatie/ray": "^1.10",
+        "vimeo/psalm": "^4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dotlines\\GhooriSubscription\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dotlines\\GhooriSubscription\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
