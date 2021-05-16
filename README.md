@@ -33,7 +33,7 @@ $password = '';
 $clientID = '';
 $clientSecret = '';
 
-$accessTokenRequest = Dotlines\Ghoori\AccessTokenRequest::getInstance($tokenUrl, $username, $password, $clientID, $clientSecret);
+$accessTokenRequest = \Dotlines\Ghoori\AccessTokenRequest::getInstance($tokenUrl, $username, $password, $clientID, $clientSecret);
 $tokenResponse = $accessTokenRequest->send();
 echo json_encode($tokenResponse) . '<br/>';
 
@@ -70,7 +70,7 @@ $userReturnUrl = ''; //after payment, user will be redirected back to this URL
 $mobile = ''; //optional
 $email = ''; //optional
 $reference = ''; //optional
-$subscriptionRequest = Dotlines\GhooriSubscription\Request::getInstance($subscriptionUrl, $accessToken, $clientID, $requestID, $package, $cycle, $start, $end, $userReturnUrl, $mobile, $email, $reference);
+$subscriptionRequest = \Dotlines\GhooriSubscription\Request::getInstance($subscriptionUrl, $accessToken, $clientID, $requestID, $package, $cycle, $start, $end, $userReturnUrl, $mobile, $email, $reference);
 echo json_encode($subscriptionRequest->send()) . '<br/>';
 
 /**
@@ -91,7 +91,7 @@ echo json_encode($subscriptionRequest->send()) . '<br/>';
  * ******************************************************
  */
 $requestStatusRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscribe/<invoiceID>/status'; //replace SERVER_URL & invoiceID with value
-$requestStatusRequest = Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($requestStatusRequestUrl, $accessToken);
+$requestStatusRequest = \Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($requestStatusRequestUrl, $accessToken);
 echo json_encode($requestStatusRequest->send()) . '<br/>';
 
 /**
@@ -113,7 +113,7 @@ echo json_encode($requestStatusRequest->send()) . '<br/>';
  * ******************************************************
  */
 $detailsRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/<subscriptionID>'; //replace SERVER_URL & subscriptionID with value
-$detailsRequest = Dotlines\GhooriSubscription\DetailsRequest::getInstance($detailsRequestUrl, $accessToken);
+$detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($detailsRequestUrl, $accessToken);
 echo json_encode($detailsRequest->send()) . '<br/>';
 
 /**
@@ -140,7 +140,7 @@ echo json_encode($detailsRequest->send()) . '<br/>';
  * ******************************************************
  */
 $cancelRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/<subscriptionID>/cancel'; //replace SERVER_URL & subscriptionID with value
-$cancelRequest = Dotlines\GhooriSubscription\CancelRequest::getInstance($cancelRequestUrl, $accessToken);
+$cancelRequest = \Dotlines\GhooriSubscription\CancelRequest::getInstance($cancelRequestUrl, $accessToken);
 echo json_encode($cancelRequest->send()) . '<br/>';
 
 /**
@@ -162,7 +162,7 @@ echo json_encode($cancelRequest->send()) . '<br/>';
  * ******************************************************
  */
 $cancelDetailsRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/cancel/<id>'; //replace SERVER_URL & id (cancel request id) with value
-$cancelDetailsRequest = Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($cancelDetailsRequestUrl, $accessToken);
+$cancelDetailsRequest = \Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($cancelDetailsRequestUrl, $accessToken);
 echo json_encode($cancelDetailsRequest->send()) . '<br/>';
 
 /**
@@ -184,7 +184,7 @@ echo json_encode($cancelDetailsRequest->send()) . '<br/>';
  * ******************************************************
  */
 $paymentListRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/<subscriptionID>/payments'; //replace SERVER_URL & id (cancel request id) with value
-$paymentListRequest = Dotlines\GhooriSubscription\PaymentListRequest::getInstance($paymentListRequestUrl, $accessToken);
+$paymentListRequest = \Dotlines\GhooriSubscription\PaymentListRequest::getInstance($paymentListRequestUrl, $accessToken);
 echo json_encode($paymentListRequest->send()) . '<br/>';
 
 /**
@@ -228,7 +228,7 @@ echo json_encode($paymentListRequest->send()) . '<br/>';
  * ******************************************************
  */
 $paymentDetailsRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/payment/<id>'; //replace SERVER_URL & id (paymentId) with value
-$paymentDetailsRequest = Dotlines\GhooriSubscription\PaymentDetailsRequest::getInstance($paymentDetailsRequestUrl, $accessToken);
+$paymentDetailsRequest = \Dotlines\GhooriSubscription\PaymentDetailsRequest::getInstance($paymentDetailsRequestUrl, $accessToken);
 echo json_encode($paymentDetailsRequest->send()) . '<br/>';
 
 /**
@@ -257,7 +257,7 @@ echo json_encode($paymentDetailsRequest->send()) . '<br/>';
  */
 $paymentRefundRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/payment/<id>/refund'; //replace SERVER_URL & id (paymentId) with value
 $refund_amount = 20;
-$paymentRefundRequest = Dotlines\GhooriSubscription\PaymentRefundRequest::getInstance($paymentRefundRequestUrl, $accessToken, $refund_amount);
+$paymentRefundRequest = \Dotlines\GhooriSubscription\PaymentRefundRequest::getInstance($paymentRefundRequestUrl, $accessToken, $refund_amount);
 echo json_encode($paymentRefundRequest->send()) . '<br/>';
 
 /**
@@ -278,7 +278,7 @@ echo json_encode($paymentRefundRequest->send()) . '<br/>';
  * ******************************************************
  */
 $paymentRefundDetailsRequestUrl = 'https://<SERVER_URL>/api/v1.0/subscription/refund/<id>'; //replace SERVER_URL & id (refund requestID) with value
-$paymentRefundDetailsRequest = Dotlines\GhooriSubscription\PaymentRefundDetailsRequest::getInstance($paymentRefundDetailsRequestUrl, $accessToken);
+$paymentRefundDetailsRequest = \Dotlines\GhooriSubscription\PaymentRefundDetailsRequest::getInstance($paymentRefundDetailsRequestUrl, $accessToken);
 echo json_encode($paymentRefundDetailsRequest->send()) . '<br/>';
 
 /**
@@ -298,7 +298,7 @@ echo json_encode($paymentRefundDetailsRequest->send()) . '<br/>';
  * ******************* Refresh Token *******************
  * ******************************************************
  */
-$refreshTokenRequest = Dotlines\Ghoori\RefreshTokenRequest::getInstance($tokenUrl, $accessToken, $clientID, $clientSecret, $refreshToken);
+$refreshTokenRequest = \Dotlines\Ghoori\RefreshTokenRequest::getInstance($tokenUrl, $accessToken, $clientID, $clientSecret, $refreshToken);
 $tokenResponse = $refreshTokenRequest->send();
 echo json_encode($tokenResponse) . '<br/>';
 
