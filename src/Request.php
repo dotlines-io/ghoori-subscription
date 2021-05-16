@@ -3,7 +3,7 @@
 
 namespace Dotlines\GhooriSubscription;
 
-use Dotlines\Ghoori\Request as RequestParent;
+use Dotlines\Core\Request as RequestParent;
 
 class Request extends RequestParent
 {

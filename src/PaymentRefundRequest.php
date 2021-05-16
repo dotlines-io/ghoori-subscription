@@ -3,7 +3,7 @@
 
 namespace Dotlines\GhooriSubscription;
 
-use Dotlines\Ghoori\Request;
+use Dotlines\Core\Request;
 
 class PaymentRefundRequest extends Request
 {
