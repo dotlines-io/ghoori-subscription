@@ -7,16 +7,16 @@ use Dotlines\Core\Request as RequestParent;
 
 class Request extends RequestParent
 {
-    private $clientID;
-    private $requestID;
-    private $package;
-    private $cycle;
-    private $start;
-    private $end;
-    private $userReturnUrl;
-    private $mobile;
-    private $email;
-    private $reference;
+    private string $clientID;
+    private string $requestID;
+    private string $package;
+    private string $cycle;
+    private string $start;
+    private string $end;
+    private string $userReturnUrl;
+    private string $mobile;
+    private string $email;
+    private string $reference;
 
     /**
      * SubscriptionRequest constructor.

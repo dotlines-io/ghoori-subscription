@@ -7,7 +7,7 @@ use Dotlines\Core\Request;
 
 class PaymentRefundRequest extends Request
 {
-    private $amount;
+    private float $amount;
 
     /**
      * SubscriptionRequest constructor.
