@@ -3,7 +3,7 @@
 
 namespace Dotlines\GhooriSubscription\Abstracts;
 
-use Dotlines\Ghoori\Request;
+use Dotlines\Core\Request;
 
 abstract class ParameterlessRequest extends Request
 {
