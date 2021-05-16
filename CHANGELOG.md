@@ -2,6 +2,10 @@
 
 All notable changes to `ghoori-subscription` package will be listed in this file.
 
+## 1.0.3 - 2021-05-17
+
+- Sets minimum PHP version to PHP 7.4
+
 ## 1.0.2 - 2021-05-16
 
 - Updates Request class path from dotlines-io/core package
