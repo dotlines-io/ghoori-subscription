@@ -3,12 +3,8 @@
 
 namespace Dotlines\GhooriSubscription\Tests;
 
-use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
-use Dotlines\GhooriSubscription\PaymentDetailsRequest;
 use Dotlines\GhooriSubscription\PaymentListRequest;
-use Dotlines\GhooriSubscription\PaymentRefundDetailsRequest;
-use JsonException;
 use PHPUnit\Framework\TestCase;
 
 class RefundRequestTests extends TestCase
