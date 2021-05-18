@@ -7,7 +7,7 @@ use Dotlines\Core\Request;
 
 abstract class ParameterlessRequest extends Request
 {
-    public static function getInstance(string $url, string $accessToken): ParameterlessRequest
+    public static function getInstance(string $url, string $accessToken): self
     {
         return new static($url, $accessToken);
     }
@@ -18,7 +18,7 @@ abstract class ParameterlessRequest extends Request
      * @param string $url
      * @param string $accessToken
      */
-    private function __construct(string $url, string $accessToken)
+    final public function __construct(string $url, string $accessToken)
     {
         $this->requestMethod = 'POST';
         $this->url = $url;

@@ -7,5 +7,4 @@ use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 
 class CancelDetailsRequest extends ParameterlessRequest
 {
-
 }
