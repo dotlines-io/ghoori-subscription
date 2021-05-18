@@ -2,7 +2,6 @@
 .php_cs
 .php_cs.cache
 .phpunit.result.cache
-psalm.xml.dist
 build
 composer.lock
 coverage
@@ -10,3 +9,4 @@ docs
 phpunit.xml
 psalm.xml
 vendor
+.php-cs-fixer.cache

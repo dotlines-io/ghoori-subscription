@@ -7,7 +7,7 @@ use Dotlines\Core\Request as RequestParent;
 
 class Request extends RequestParent
 {
-    private string $clientID;
+    private int $clientID;
     private string $requestID;
     private string $package;
     private string $cycle;
@@ -23,7 +23,7 @@ class Request extends RequestParent
      *
      * @param string $url
      * @param string $accessToken
-     * @param string $clientID
+     * @param int $clientID
      * @param string $requestID
      * @param string $package
      * @param string $cycle
@@ -36,12 +36,12 @@ class Request extends RequestParent
      *
      * @return Request
      */
-    public static function getInstance(string $url, string $accessToken, string $clientID, string $requestID, string $package, string $cycle, string $start, string $end, string $userReturnUrl, string $mobile = '', string $email = '', string $reference = ''): Request
+    public static function getInstance(string $url, string $accessToken, int $clientID, string $requestID, string $package, string $cycle, string $start, string $end, string $userReturnUrl, string $mobile = '', string $email = '', string $reference = ''): Request
     {
         return new Request($url, $accessToken, $clientID, $requestID, $package, $cycle, $start, $end, $userReturnUrl, $mobile, $email, $reference);
     }
 
-    private function __construct(string $url, string $accessToken, string $clientID, string $requestID, string $package, string $cycle, string $start, string $end, string $userReturnUrl, string $mobile = '', string $email = '', string $reference = '')
+    private function __construct(string $url, string $accessToken, int $clientID, string $requestID, string $package, string $cycle, string $start, string $end, string $userReturnUrl, string $mobile = '', string $email = '', string $reference = '')
     {
         $this->requestMethod = 'POST';
         $this->url = $url;
