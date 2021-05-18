@@ -7,5 +7,4 @@ use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 
 class PaymentDetailsRequest extends ParameterlessRequest
 {
-
 }
