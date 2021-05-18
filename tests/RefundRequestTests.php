@@ -142,7 +142,9 @@ class RefundRequestTests extends TestCase
                 self::assertNotEmpty($response['errorCode']);
                 self::assertNotEmpty($response['errorMessage']);
 
-                if (empty($this->refund_request_id)) $this->refund_request_id = $response['requestID'] ?? '';
+                if (empty($this->refund_request_id)) {
+                    $this->refund_request_id = $response['requestID'] ?? '';
+                }
             }
         }
     }
