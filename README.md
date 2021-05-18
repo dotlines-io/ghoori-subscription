@@ -1,7 +1,8 @@
 # Ghoori Subscription Composer Package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dotlines-io/ghoori-subscription.svg?style=flat-square)](https://packagist.org/packages/dotlines-io/ghoori-subscription)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/dotlines-io/ghoori-subscription/run-tests?label=tests)](https://github.com/dotlines-io/ghoori-subscription/actions?query=workflow%3ATests+branch%3Amaster)
+[![Tests](https://github.com/dotlines-io/ghoori-subscription/actions/workflows/run-tests.yml/badge.svg)](https://github.com/dotlines-io/ghoori-subscription/actions/workflows/run-tests.yml)
+[![Psalm](https://github.com/dotlines-io/ghoori-subscription/actions/workflows/psalm.yml/badge.svg)](https://github.com/dotlines-io/ghoori-subscription/actions/workflows/psalm.yml)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/dotlines-io/ghoori-subscription/Check%20&%20fix%20styling?label=code%20style)](https://github.com/dotlines-io/ghoori-subscription/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/dotlines-io/ghoori-subscription.svg?style=flat-square)](https://packagist.org/packages/dotlines-io/ghoori-subscription)
 
