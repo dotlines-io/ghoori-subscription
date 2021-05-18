@@ -51,6 +51,18 @@ class RefundRequestTests extends TestCase
             self::assertArrayHasKey('subscriptionId', $subscriptionPayment);
             self::assertArrayHasKey('transactionDate', $subscriptionPayment);
             self::assertArrayHasKey('transactionId', $subscriptionPayment);
+
+
+            self::assertNotEmpty($subscriptionPayment['paymentId']);
+            self::assertNotEmpty($subscriptionPayment['cycle']);
+            self::assertNotEmpty($subscriptionPayment['dueDate']);
+            self::assertNotEmpty($subscriptionPayment['reverseTransactionAmount']);
+            self::assertNotEmpty($subscriptionPayment['reverseTransactionDate']);
+            self::assertNotEmpty($subscriptionPayment['reverseTransactionId']);
+            self::assertNotEmpty($subscriptionPayment['status']);
+            self::assertNotEmpty($subscriptionPayment['subscriptionId']);
+            self::assertNotEmpty($subscriptionPayment['transactionDate']);
+            self::assertNotEmpty($subscriptionPayment['transactionId']);
         }
 
         return [];
@@ -81,12 +93,22 @@ class RefundRequestTests extends TestCase
             self::assertArrayHasKey('subscriptionId', $paymentDetails);
             self::assertArrayHasKey('transactionDate', $paymentDetails);
             self::assertArrayHasKey('transactionId', $paymentDetails);
+
+            self::assertNotEmpty($paymentDetails['paymentId']);
+            self::assertNotEmpty($paymentDetails['cycle']);
+            self::assertNotEmpty($paymentDetails['dueDate']);
+            self::assertNotEmpty($paymentDetails['reverseTransactionAmount']);
+            self::assertNotEmpty($paymentDetails['reverseTransactionDate']);
+            self::assertNotEmpty($paymentDetails['reverseTransactionId']);
+            self::assertNotEmpty($paymentDetails['status']);
+            self::assertNotEmpty($paymentDetails['subscriptionId']);
+            self::assertNotEmpty($paymentDetails['transactionDate']);
+            self::assertNotEmpty($paymentDetails['transactionId']);
         }
     }
 
     /**
      * @test
-     * @throws JsonException
      */
     final public function send_refund_request(): void
     {
@@ -114,9 +136,13 @@ class RefundRequestTests extends TestCase
                 self::assertArrayHasKey('errorCode', $response);
                 self::assertArrayHasKey('errorMessage', $response);
 
-                if (empty($this->refund_request_id)) {
-                    $this->refund_request_id = $response['requestID'] ?? '';
-                }
+                self::assertNotEmpty($response['requestID']);
+                self::assertNotEmpty($response['amount']);
+                self::assertNotEmpty($response['status']);
+                self::assertNotEmpty($response['errorCode']);
+                self::assertNotEmpty($response['errorMessage']);
+
+                if (empty($this->refund_request_id)) $this->refund_request_id = $response['requestID'] ?? '';
             }
         }
     }
