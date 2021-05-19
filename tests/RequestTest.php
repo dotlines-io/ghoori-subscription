@@ -9,11 +9,10 @@ namespace Dotlines\GhooriSubscription\Tests;
 use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
 use Dotlines\GhooriSubscription\Request;
+use Exception;
 use GuzzleHttp\Exception\ConnectException;
 use JsonException;
-use Exception;
 use PHPUnit\Framework\TestCase;
-use DateTime;
 
 class RequestTest extends TestCase
 {
@@ -36,7 +35,7 @@ class RequestTest extends TestCase
     public string $email = "";
     public string $reference = "";
 
-    function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);

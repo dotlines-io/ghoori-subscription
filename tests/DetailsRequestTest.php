@@ -36,7 +36,7 @@ class DetailsRequestTest extends TestCase
     public string $subscriptionID = "";
     public string $detailsRequestUrl = "";
 
-    function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
@@ -67,7 +67,7 @@ class DetailsRequestTest extends TestCase
     {
         $this->detailsRequestUrl = $this->serverUrl . '/api/v1.0/subscription/' . $this->subscriptionID; //replace SERVER_URL & subscriptionID with value
         $detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
-        $detailsRequestResponse =  $detailsRequest->send();
+        $detailsRequestResponse = $detailsRequest->send();
 
         self::assertNotEmpty($detailsRequestResponse);
         self::assertArrayHasKey('id', $detailsRequestResponse);

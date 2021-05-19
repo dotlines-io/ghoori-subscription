@@ -34,7 +34,7 @@ class RequestStatusRequestTest extends TestCase
     public string $invoiceID = "";
     public string $requestStatusRequestUrl = "";
 
-    function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
