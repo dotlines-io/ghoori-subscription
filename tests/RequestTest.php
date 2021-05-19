@@ -61,7 +61,7 @@ class RequestTest extends TestCase
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
         $this->package = 'BBC_Janala_Weekly1';
         $this->cycle = 'WEEKLY'; //possible values: DAILY, WEEKLY, FIFTEEN_DAYS, MONTHLY, THIRTY_DAYS, NINETY_DAYS, ONE_EIGHTY_DAYS
-        $this->start = Carbon::now()->format('Y-m-d');
+        $this->start = Carbon::now()->addDay()->format('Y-m-d');
         $this->end = Carbon::now()->addYear()->format('Y-m-d');
         $this->userReturnUrl = 'https://test-app.local';
         $this->mobile = ''; //optional
