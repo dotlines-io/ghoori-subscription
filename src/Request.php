@@ -62,7 +62,7 @@ class Request extends RequestParent
     final public function params(): array
     {
         $params = [
-            'clientID' => $this->clientID,
+            'clientID' => (string)$this->clientID,
             'requestID' => $this->requestID,
             'package' => $this->package,
             'cycle' => $this->cycle,
