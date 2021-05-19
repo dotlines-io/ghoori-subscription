@@ -2,6 +2,10 @@
 
 All notable changes to `ghoori-subscription` package will be listed in this file.
 
+## 1.0.6 - 2021-05-19
+
+- Upgrades dependenies
+
 ## 1.0.5 - 2021-05-19
 
 - Improves code using psalm errorLevel 1
