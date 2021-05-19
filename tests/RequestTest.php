@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUndefinedConstantInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
 
 /** @noinspection PhpComposerExtensionStubsInspection */
 /** @noinspection SpellCheckingInspection */
@@ -16,6 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
+    protected $backupStaticAttributes = false;
+    protected $runTestInSeparateProcess = false;
+
     public string $serverUrl = 'https://sb-payments.ghoori.com.bd';
     public string $tokenUrl = 'https://sb-payments.ghoori.com.bd/oauth/token';
     public string $username = 'demo@gmail.com';
@@ -35,13 +39,13 @@ class RequestTest extends TestCase
     public string $email = "";
     public string $reference = "";
 
-    public function setUp(): void
+    final public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
         $tokenResponse = $accessTokenRequest->send();
 
-        $this->accessToken = $tokenResponse['access_token'];
+        $this->accessToken = (string)$tokenResponse['access_token'];
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
         $this->package = 'BBC_Janala_Weekly1';
         $this->cycle = 'WEEKLY'; //possible values: DAILY, WEEKLY, FIFTEEN_DAYS, MONTHLY, THIRTY_DAYS, NINETY_DAYS, ONE_EIGHTY_DAYS
@@ -64,14 +68,14 @@ class RequestTest extends TestCase
         $subscriptionRequestResponse = $subscriptionRequest->send();
 
         self::assertNotEmpty($subscriptionRequestResponse);
-        self::assertArrayHasKey('url', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayHasKey('invoiceID', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayHasKey('errorCode', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayHasKey('errorMessage', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertNotEmpty('url', $subscriptionRequestResponse['url']);
-        self::assertNotEmpty('invoiceID', $subscriptionRequestResponse['invoiceID']);
-        self::assertNotEmpty('errorCode', $subscriptionRequestResponse['errorCode']);
-        self::assertNotEmpty('errorMessage', $subscriptionRequestResponse['errorMessage']);
+        self::assertArrayHasKey('url', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse, JSON_THROW_ON_ERROR));
+        self::assertArrayHasKey('invoiceID', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse, JSON_THROW_ON_ERROR));
+        self::assertArrayHasKey('errorCode', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse, JSON_THROW_ON_ERROR));
+        self::assertArrayHasKey('errorMessage', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse, JSON_THROW_ON_ERROR));
+        self::assertNotEmpty('url', (string)$subscriptionRequestResponse['url']);
+        self::assertNotEmpty('invoiceID', (string)$subscriptionRequestResponse['invoiceID']);
+        self::assertNotEmpty('errorCode', (string)$subscriptionRequestResponse['errorCode']);
+        self::assertNotEmpty('errorMessage', (string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -112,7 +116,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The request i d has already been taken', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty($subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -129,7 +133,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The package field is required', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty($subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -146,7 +150,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Package: ' . $this->package .' not yet added on ApiGateway', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty($subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -163,7 +167,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The cycle field is required', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty($subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -180,7 +184,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The selected cycle is invalid', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -197,7 +201,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The start field is required', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -214,7 +218,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('does not match the format Y-m-d', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -230,7 +234,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('BAD_REQUEST, Reason: Start date can not be previous date', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -247,7 +251,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The end field is required', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -263,7 +267,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('does not match the format Y-m-d', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -279,7 +283,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('BAD_REQUEST, Reason: Start date can not be after end date', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -295,7 +299,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The user return u r l field is required', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -311,7 +315,7 @@ class RequestTest extends TestCase
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The user return u r l format is invalid', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**
@@ -321,13 +325,13 @@ class RequestTest extends TestCase
     final public function it_gives_error_on_less_than_11_digits_mobile_input(): void
     {
         $this->requestID = 'test-app-' . random_int(111111, 999999);
-        $this->mobile = 1212;
+        $this->mobile = "1212";
         $subscriptionRequest = Request::getInstance($this->subscriptionUrl, $this->accessToken, $this->clientID, $this->requestID, $this->package, $this->cycle, $this->start, $this->end, $this->userReturnUrl, $this->mobile, $this->email, $this->reference);
         $subscriptionRequestResponse = $subscriptionRequest->send();
         self::assertArrayNotHasKey('url', $subscriptionRequestResponse);
         self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse);
         self::assertNotEquals('00', $subscriptionRequestResponse['errorCode']);
-        self::assertStringContainsStringIgnoringCase('Invalid Parameter.  The mobile must be 13 digits', $subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty((string)$subscriptionRequestResponse['errorMessage']);
     }
 
     /**

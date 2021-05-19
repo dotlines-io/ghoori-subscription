@@ -1,16 +1,24 @@
 <?php
 
+/** @noinspection PhpUndefinedConstantInspection */
+/** @noinspection SpellCheckingInspection */
+
 namespace Dotlines\GhooriSubscription\Tests;
 
 use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
+use Dotlines\GhooriSubscription\CancelDetailsRequest;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 
 class CancelDetailsRequestTest extends TestCase
 {
+    protected $backupStaticAttributes = false;
+    protected $runTestInSeparateProcess = false;
+
     public string $serverUrl = 'https://sb-payments.ghoori.com.bd';
     public string $tokenUrl = 'https://sb-payments.ghoori.com.bd/oauth/token';
     public string $username = 'demo@gmail.com';
@@ -33,12 +41,15 @@ class CancelDetailsRequestTest extends TestCase
     public string $cancelRequestID = "";
     public string $cancelDetailsRequestUrl = "";
 
-    public function setUp(): void
+    /**
+     * @throws JsonException
+     */
+    final public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
         $tokenResponse = $accessTokenRequest->send();
-        $this->accessToken = $tokenResponse['access_token'];
+        $this->accessToken = (string)$tokenResponse['access_token'];
 
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
         $this->package = 'BBC_Janala_Weekly1';
@@ -56,17 +67,17 @@ class CancelDetailsRequestTest extends TestCase
 
     /**
      * @test
-     * @throws \JsonException
+     * @throws JsonException
      * if the subscription is cancelled run it_gives_error_on_already_canceled_subscription(), otherwise this
      */
     final public function it_can_fetch_subscription_cancel_id(): void
     {
         $this->cancelDetailsRequestUrl = $this->serverUrl . '/api/v1.0/subscription/cancel/' . $this->cancelRequestID; //replace SERVER_URL & id (cancel request id) with value
-        $cancelDetailsRequest = \Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
+        $cancelDetailsRequest = CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
         $cancelDetailsRequestResponse = $cancelDetailsRequest->send();
 
         self::assertNotEmpty($cancelDetailsRequestResponse);
-        self::assertArrayHasKey('id', $cancelDetailsRequestResponse, json_encode($cancelDetailsRequestResponse));
+        self::assertArrayHasKey('id', $cancelDetailsRequestResponse, json_encode($cancelDetailsRequestResponse, JSON_THROW_ON_ERROR));
         self::assertArrayHasKey('subscriptionID', $cancelDetailsRequestResponse);
         self::assertArrayHasKey('requestID', $cancelDetailsRequestResponse);
         self::assertArrayHasKey('status', $cancelDetailsRequestResponse);
@@ -83,12 +94,11 @@ class CancelDetailsRequestTest extends TestCase
      * @test
      * @throws JsonException
      * @throws Exception
-     * @throws \Exception
      */
     final public function it_gets_exception_with_empty_cancel_request_url(): void
     {
         $this->cancelDetailsRequestUrl = ""; //replace SERVER_URL & subscriptionID with value
-        $cancelDetailsRequest = \Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
+        $cancelDetailsRequest = CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
         $this->expectException(Exception::class);
         $cancelDetailsRequest->send();
     }
@@ -96,12 +106,12 @@ class CancelDetailsRequestTest extends TestCase
     /**
      * @test
      * @throws Exception
-     * @throws \JsonException
+     * @throws JsonException
      */
     final public function it_gives_exception_with_wrong_cancel_request_url(): void
     {
         $this->cancelDetailsRequestUrl = "wrong url"; //replace SERVER_URL & subscriptionID with value
-        $cancelDetailsRequest = \Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
+        $cancelDetailsRequest = CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
         $this->expectException(ConnectException::class);
         $cancelDetailsRequest->send();
     }
@@ -109,13 +119,13 @@ class CancelDetailsRequestTest extends TestCase
     /**
      * @test
      * @throws JsonException
-     * @throws \JsonException
+     * @throws JsonException
      */
     final public function it_gets_exception_with_invalid_cancelRequestID(): void
     {
         $this->cancelRequestID = "NA";
         $this->cancelDetailsRequestUrl = $this->serverUrl . '/api/v1.0/subscription/cancel/' . $this->cancelRequestID; //replace SERVER_URL & id (cancel request id) with value
-        $cancelDetailsRequest = \Dotlines\GhooriSubscription\CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
+        $cancelDetailsRequest = CancelDetailsRequest::getInstance($this->cancelDetailsRequestUrl, $this->accessToken);
         $this->expectException(ClientException::class);
         $cancelDetailsRequest->send();
     }

@@ -1,17 +1,25 @@
 <?php
 
+/** @noinspection SpellCheckingInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUndefinedConstantInspection */
+
 namespace Dotlines\GhooriSubscription\Tests;
 
 use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
-use Dotlines\GhooriSubscription\Request;
+use Dotlines\GhooriSubscription\RequestStatusRequest;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 
 class RequestStatusRequestTest extends TestCase
 {
+    protected $backupStaticAttributes = false;
+    protected $runTestInSeparateProcess = false;
+
     public string $serverUrl = 'https://sb-payments.ghoori.com.bd';
     public string $tokenUrl = 'https://sb-payments.ghoori.com.bd/oauth/token';
     public string $username = 'demo@gmail.com';
@@ -34,12 +42,15 @@ class RequestStatusRequestTest extends TestCase
     public string $invoiceID = "";
     public string $requestStatusRequestUrl = "";
 
-    public function setUp(): void
+    /**
+     * @throws JsonException
+     */
+    final public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
         $tokenResponse = $accessTokenRequest->send();
-        $this->accessToken = $tokenResponse['access_token'];
+        $this->accessToken = (string)$tokenResponse['access_token'];
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
         $this->package = 'BBC_Janala_Weekly1';
         $this->cycle = 'WEEKLY'; //possible values: DAILY, WEEKLY, FIFTEEN_DAYS, MONTHLY, THIRTY_DAYS, NINETY_DAYS, ONE_EIGHTY_DAYS
@@ -61,11 +72,11 @@ class RequestStatusRequestTest extends TestCase
     final public function it_can_fetch_request_status_invoiceID(): void
     {
         $this->requestStatusRequestUrl = $this->serverUrl . '/api/v1.0/subscribe/' . $this->invoiceID . '/status'; //replace SERVER_URL & invoiceID with value
-        $requestStatusRequest = \Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
+        $requestStatusRequest = RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
         $requestStatusRequestResponse = $requestStatusRequest->send();
 
         self::assertNotEmpty($requestStatusRequestResponse);
-        self::assertArrayHasKey('invoiceID', $requestStatusRequestResponse, json_encode($requestStatusRequestResponse));
+        self::assertArrayHasKey('invoiceID', $requestStatusRequestResponse, json_encode($requestStatusRequestResponse, JSON_THROW_ON_ERROR));
         self::assertArrayHasKey('status', $requestStatusRequestResponse);
         self::assertArrayHasKey('subscriptionID', $requestStatusRequestResponse);
         self::assertArrayHasKey('createdAt', $requestStatusRequestResponse);
@@ -87,7 +98,7 @@ class RequestStatusRequestTest extends TestCase
     {
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->requestStatusRequestUrl = "";
-        $requestStatusRequest = \Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
+        $requestStatusRequest = RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
         $this->expectException(Exception::class);
         $requestStatusRequest->send();
     }
@@ -100,7 +111,7 @@ class RequestStatusRequestTest extends TestCase
     {
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->requestStatusRequestUrl = "sdsadsasa";
-        $requestStatusRequest = \Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
+        $requestStatusRequest = RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
         $this->expectException(ConnectException::class);
         $requestStatusRequest->send();
     }
@@ -114,7 +125,7 @@ class RequestStatusRequestTest extends TestCase
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->invoiceID = "";
         $this->requestStatusRequestUrl = $this->serverUrl . '/api/v1.0/subscribe/' . $this->invoiceID . '/status'; //replace SERVER_URL & invoiceID with value
-        $requestStatusRequest = \Dotlines\GhooriSubscription\RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
+        $requestStatusRequest = RequestStatusRequest::getInstance($this->requestStatusRequestUrl, $this->accessToken);
         $this->expectException(ClientException::class);
         $requestStatusRequest->send();
     }

@@ -1,10 +1,12 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
+
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 namespace Dotlines\GhooriSubscription\Tests;
 
 use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
-use Dotlines\GhooriSubscription\Request;
+use Dotlines\GhooriSubscription\DetailsRequest;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -13,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 
 class DetailsRequestTest extends TestCase
 {
+    protected $backupStaticAttributes = false;
+    protected $runTestInSeparateProcess = false;
+
     public string $serverUrl = 'https://sb-payments.ghoori.com.bd';
     public string $tokenUrl = 'https://sb-payments.ghoori.com.bd/oauth/token';
     public string $username = 'demo@gmail.com';
@@ -36,12 +41,15 @@ class DetailsRequestTest extends TestCase
     public string $subscriptionID = "";
     public string $detailsRequestUrl = "";
 
-    public function setUp(): void
+    /**
+     * @throws JsonException
+     */
+    final public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
         $tokenResponse = $accessTokenRequest->send();
-        $this->accessToken = $tokenResponse['access_token'];
+        $this->accessToken = (string)$tokenResponse['access_token'];
 
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
         $this->package = 'BBC_Janala_Weekly1';
@@ -66,7 +74,7 @@ class DetailsRequestTest extends TestCase
     final public function it_can_fetch_details_request_id(): void
     {
         $this->detailsRequestUrl = $this->serverUrl . '/api/v1.0/subscription/' . $this->subscriptionID; //replace SERVER_URL & subscriptionID with value
-        $detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
+        $detailsRequest = DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
         $detailsRequestResponse = $detailsRequest->send();
 
         self::assertNotEmpty($detailsRequestResponse);
@@ -92,7 +100,7 @@ class DetailsRequestTest extends TestCase
     {
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->detailsRequestUrl = "";
-        $detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
+        $detailsRequest = DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
         $this->expectException(Exception::class);
         $detailsRequest->send();
     }
@@ -105,7 +113,7 @@ class DetailsRequestTest extends TestCase
     {
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->detailsRequestUrl = "sadasdas";
-        $detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
+        $detailsRequest = DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
         $this->expectException(ConnectException::class);
         $detailsRequest->send();
     }
@@ -119,7 +127,7 @@ class DetailsRequestTest extends TestCase
         $this->requestID = 'test-app-' . random_int(111111, 999999);
         $this->subscriptionID = "NA";
         $this->detailsRequestUrl = $this->serverUrl . '/api/v1.0/subscription/' . $this->subscriptionID; //replace SERVER_URL & subscriptionID with value
-        $detailsRequest = \Dotlines\GhooriSubscription\DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
+        $detailsRequest = DetailsRequest::getInstance($this->detailsRequestUrl, $this->accessToken);
         $this->expectException(ClientException::class);
         $detailsRequest->send();
     }
