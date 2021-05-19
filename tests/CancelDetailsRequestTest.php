@@ -33,7 +33,7 @@ class CancelDetailsRequestTest extends TestCase
     public string $cancelRequestID = "";
     public string $cancelDetailsRequestUrl = "";
 
-    function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $accessTokenRequest = AccessTokenRequest::getInstance($this->tokenUrl, $this->username, $this->password, $this->clientID, $this->clientSecret);
