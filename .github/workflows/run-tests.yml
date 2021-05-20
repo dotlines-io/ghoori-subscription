@@ -35,3 +35,9 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
+        env:
+          GHOORI_SERVER_URL: ${{ secrets.GHOORI_SERVER_URL }}
+          GHOORI_USERNAME: ${{ secrets.GHOORI_USERNAME }}
+          GHOORI_PASSWORD: ${{ secrets.GHOORI_PASSWORD }}
+          GHOORI_CLIENT_ID: ${{ secrets.GHOORI_CLIENT_ID }}
+          GHOORI_CLIENT_SECRET: ${{ secrets.GHOORI_CLIENT_SECRET }}
