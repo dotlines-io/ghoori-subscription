@@ -2,10 +2,10 @@
 
 
 namespace Dotlines\GhooriSubscription\Tests;
-use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 
-use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
+
+use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 use PHPUnit\Framework\TestCase;
 
 class ParameterlessRequestTest extends TestCase
@@ -32,7 +32,6 @@ class ParameterlessRequestTest extends TestCase
 
         $this->accessToken = (string)$tokenResponse['access_token'];
         $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
-
     }
 
     /**
@@ -41,7 +40,8 @@ class ParameterlessRequestTest extends TestCase
      */
     final public function it_can_not_fetch_charge_url(): void
     {
-        $requestObj = new class($this->subscriptionUrl, $this->accessToken) extends ParameterlessRequest { };
+        $requestObj = new class($this->subscriptionUrl, $this->accessToken) extends ParameterlessRequest {
+        };
         $subscriptionRequest = $requestObj->getInstance($this->subscriptionUrl, $this->accessToken);
         $subscriptionRequestResponse = $subscriptionRequest->send();
 
@@ -51,8 +51,7 @@ class ParameterlessRequestTest extends TestCase
         self::assertArrayHasKey('errorCode', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
         self::assertArrayHasKey('errorMessage', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
         self::assertNotEmpty('errorCode', (string)$subscriptionRequestResponse['errorCode']);
-        self::assertNotEmpty('errorMessage',(string)$subscriptionRequestResponse['errorMessage']);
+        self::assertNotEmpty('errorMessage', (string)$subscriptionRequestResponse['errorMessage']);
         self::assertNotEquals('00', (string)$subscriptionRequestResponse['errorCode']);
-
     }
 }
