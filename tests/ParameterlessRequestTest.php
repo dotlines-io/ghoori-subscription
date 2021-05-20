@@ -2,10 +2,10 @@
 
 
 namespace Dotlines\GhooriSubscription\Tests;
-use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 
-use Carbon\Carbon;
 use Dotlines\Ghoori\AccessTokenRequest;
+
+use Dotlines\GhooriSubscription\Abstracts\ParameterlessRequest;
 use PHPUnit\Framework\TestCase;
 
 class ParameterlessRequestTest extends TestCase
@@ -32,7 +32,6 @@ class ParameterlessRequestTest extends TestCase
 
         $this->accessToken = (string)$tokenResponse['access_token'];
         $this->detailsRequestUrl = $this->serverUrl.'/api/v1.0/subscription/432';
-
     }
 
     /**
@@ -41,7 +40,8 @@ class ParameterlessRequestTest extends TestCase
      */
     final public function it_can_not_fetch_charge_url(): void
     {
-        $requestObj = new class($this->detailsRequestUrl, $this->accessToken) extends ParameterlessRequest {};
+        $requestObj = new class($this->detailsRequestUrl, $this->accessToken) extends ParameterlessRequest {
+        };
         $subscriptionDetailsRequest = $requestObj::getInstance($this->detailsRequestUrl, $this->accessToken);
         $subscriptionDetailsRequestResponse = $subscriptionDetailsRequest->send();
 
@@ -57,7 +57,5 @@ class ParameterlessRequestTest extends TestCase
         self::assertArrayHasKey('requestID', $subscriptionDetailsRequestResponse);
         self::assertArrayHasKey('errorCode', $subscriptionDetailsRequestResponse);
         self::assertArrayHasKey('errorMessage', $subscriptionDetailsRequestResponse);
-
-
     }
 }
