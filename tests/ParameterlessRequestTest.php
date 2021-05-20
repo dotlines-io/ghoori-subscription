@@ -18,7 +18,7 @@ class ParameterlessRequestTest extends TestCase
     public string $clientSecret = 'gS2ujsPALkQBakAoumes0pZrxm4y6Oktwggg07AB';
 
     public string $accessToken = "";
-    public string $subscriptionUrl = "";
+    public string $detailsRequestUrl = "";
 
 
     /**
@@ -31,7 +31,7 @@ class ParameterlessRequestTest extends TestCase
         $tokenResponse = $accessTokenRequest->send();
 
         $this->accessToken = (string)$tokenResponse['access_token'];
-        $this->subscriptionUrl = $this->serverUrl . '/api/v1.0/subscribe';
+        $this->detailsRequestUrl = $this->serverUrl.'/api/v1.0/subscription/432';
 
     }
 
@@ -41,18 +41,23 @@ class ParameterlessRequestTest extends TestCase
      */
     final public function it_can_not_fetch_charge_url(): void
     {
-        $requestObj = new class($this->subscriptionUrl, $this->accessToken) extends ParameterlessRequest { };
-        $subscriptionRequest = $requestObj->getInstance($this->subscriptionUrl, $this->accessToken);
-        $subscriptionRequestResponse = $subscriptionRequest->send();
+        $requestObj = new class($this->detailsRequestUrl, $this->accessToken) extends ParameterlessRequest {};
+        $subscriptionDetailsRequest = $requestObj::getInstance($this->detailsRequestUrl, $this->accessToken);
+        $subscriptionDetailsRequestResponse = $subscriptionDetailsRequest->send();
 
-        self::assertNotEmpty($subscriptionRequestResponse);
-        self::assertArrayNotHasKey('url', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayNotHasKey('invoiceID', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayHasKey('errorCode', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertArrayHasKey('errorMessage', $subscriptionRequestResponse, json_encode($subscriptionRequestResponse));
-        self::assertNotEmpty('errorCode', (string)$subscriptionRequestResponse['errorCode']);
-        self::assertNotEmpty('errorMessage',(string)$subscriptionRequestResponse['errorMessage']);
-        self::assertNotEquals('00', (string)$subscriptionRequestResponse['errorCode']);
+        self::assertNotEmpty($subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('id', $subscriptionDetailsRequestResponse, json_encode($subscriptionDetailsRequestResponse));
+        self::assertArrayHasKey('invoiceID', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('amount', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('cycle', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('enabled', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('createdDate', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('startDate', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('endDate', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('requestID', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('errorCode', $subscriptionDetailsRequestResponse);
+        self::assertArrayHasKey('errorMessage', $subscriptionDetailsRequestResponse);
+
 
     }
 }
