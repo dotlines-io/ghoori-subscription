@@ -2,9 +2,13 @@
 
 All notable changes to `ghoori-subscription` package will be listed in this file.
 
+## 1.0.7 - 2021-05-20
+
+- Improves package security
+
 ## 1.0.6 - 2021-05-19
 
-- Upgrades dependenies
+- Upgrades dependencies
 
 ## 1.0.5 - 2021-05-19
 
