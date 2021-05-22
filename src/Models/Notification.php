@@ -23,7 +23,7 @@ class Notification
     public string $type;
     public string $status;
     public string $subscriptionID;
-    public string $paymentID;
+    public string $paymentID; // comes empty only when $type = 'SUBSCRIPTION'
     public string $timestamp;
 
     public function __construct(string $notificationID, string $invoiceID, string $type, string $status, string $subscriptionID, string $paymentID, string $timestamp)
