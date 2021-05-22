@@ -2,6 +2,10 @@
 
 All notable changes to `ghoori-subscription` package will be listed in this file.
 
+## 1.0.9 - 2021-05-22
+
+- Updates Notification Response
+
 ## 1.0.8 - 2021-05-22
 
 - Introduces Notification Processor Interface
