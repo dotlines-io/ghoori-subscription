@@ -5,6 +5,8 @@
 
 namespace Dotlines\GhooriSubscription\Models;
 
+use JsonException;
+
 /**
  * After Ghoori pushes a notification to your Notification Receiving endpoint
  * And after you've done necessary processing for the notification
@@ -25,5 +27,18 @@ class NotificationResponse
         $this->recordID = $recordID;
         $this->status = $status;
         $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @throws JsonException
+     * @noinspection PhpUndefinedConstantInspection
+     */
+    public function __toString(): string
+    {
+        return json_encode([
+            'recordID' => $this->recordID,
+            'status' => $this->status,
+            'timestamp' => $this->timestamp,
+        ], JSON_THROW_ON_ERROR);
     }
 }
