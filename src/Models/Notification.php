@@ -3,7 +3,6 @@
 
 namespace Dotlines\GhooriSubscription\Models;
 
-
 /**
  * You will provide an API endpoint to Ghoori
  * After that Ghoori will start pushing notifications to this API endpoint
