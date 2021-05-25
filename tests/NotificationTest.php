@@ -6,7 +6,6 @@ namespace Dotlines\GhooriSubscription\Tests;
 use Dotlines\GhooriSubscription\Models\Notification;
 use PHPUnit\Framework\TestCase;
 
-
 class NotificationTest extends TestCase
 {
     public string $notificationID = "";
@@ -40,5 +39,4 @@ class NotificationTest extends TestCase
         $notificationObj = new Notification($this->notificationID, $this->invoiceID, $this->type, $this->status, $this->subscriptionID, $this->paymentID, $this->timestamp);
         self::assertEquals("Dotlines\GhooriSubscription\Models\Notification", get_class($notificationObj));
     }
-
 }
