@@ -32,10 +32,9 @@ class NotificationTest extends TestCase
 
     /**
      * @test
-     * @throws JsonException
      */
 
-    final public function it_can_construct_Notification(): void
+    final public function it_can_construct_Notification_object(): void
     {
         $notificationObj = new Notification($this->notificationID, $this->invoiceID, $this->type, $this->status, $this->subscriptionID, $this->paymentID, $this->timestamp);
         self::assertEquals("Dotlines\GhooriSubscription\Models\Notification", get_class($notificationObj));
