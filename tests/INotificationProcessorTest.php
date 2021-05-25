@@ -42,11 +42,11 @@ class INotificationProcessorTest extends TestCase
     final public function it_succeeds_implementing_INotificationProcessor(): void
     {
         $notificationObj = new Notification($this->notificationID, $this->invoiceID, $this->type, $this->status, $this->subscriptionID, $this->paymentID, $this->timestamp);
-        $ResponseObj = new NotificationResponse($this->recordID ,$this->status,$this->timestamp);
+        $ResponseObj = new NotificationResponse($this->recordID, $this->status, $this->timestamp);
         $stub = $this->createStub(INotificationProcessor::class);
         $stub->method('process')
             ->willReturn($ResponseObj);
-        self::assertSame($ResponseObj, $stub->process($notificationObj,['value1','value2']));
-        self::assertEquals("Dotlines\GhooriSubscription\Models\NotificationResponse", get_class($stub->process($notificationObj,['value1','value2'])));
+        self::assertSame($ResponseObj, $stub->process($notificationObj, ['value1','value2']));
+        self::assertEquals("Dotlines\GhooriSubscription\Models\NotificationResponse", get_class($stub->process($notificationObj, ['value1','value2'])));
     }
 }
