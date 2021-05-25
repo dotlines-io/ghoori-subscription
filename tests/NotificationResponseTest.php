@@ -6,7 +6,6 @@ namespace Dotlines\GhooriSubscription\Tests;
 use Dotlines\GhooriSubscription\Models\NotificationResponse;
 use PHPUnit\Framework\TestCase;
 
-
 class NotificationResponseTest extends TestCase
 {
     public string $recordID = "";
@@ -28,7 +27,7 @@ class NotificationResponseTest extends TestCase
 
     final public function it_can_construct_NotificationResponse_object(): void
     {
-        $ResponseObj = new NotificationResponse($this->recordID ,$this->status,$this->timestamp);
+        $ResponseObj = new NotificationResponse($this->recordID, $this->status, $this->timestamp);
         self::assertEquals("Dotlines\GhooriSubscription\Models\NotificationResponse", get_class($ResponseObj));
     }
 
@@ -39,12 +38,12 @@ class NotificationResponseTest extends TestCase
 
     final public function it_can_return_json_encoded_parameter_of_NotificationResponse_object(): void
     {
-        $responseObj = new NotificationResponse($this->recordID ,$this->status,$this->timestamp);
+        $responseObj = new NotificationResponse($this->recordID, $this->status, $this->timestamp);
         $responseResult = json_decode($responseObj->__toString()) ;
 
-        self::assertObjectHasAttribute("recordID",$responseResult);
-        self::assertObjectHasAttribute("status",$responseResult);
-        self::assertObjectHasAttribute("timestamp",$responseResult);
+        self::assertObjectHasAttribute("recordID", $responseResult);
+        self::assertObjectHasAttribute("status", $responseResult);
+        self::assertObjectHasAttribute("timestamp", $responseResult);
         self::assertNotEmpty($responseResult);
         self::assertNotEmpty("recordID", $responseResult->recordID);
         self::assertNotEmpty("status", $responseResult->status);
